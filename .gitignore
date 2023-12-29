@@ -1,1 +1,10 @@
 /Manifest.toml
+# exclude everything
+img/*
+
+# exception to the rule
+!img/.gitkeep
+
+# ignore Julia-files in test-folder
+test/Manifest.toml
+test/Project.toml
