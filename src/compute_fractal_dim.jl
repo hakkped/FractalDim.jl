@@ -6,7 +6,6 @@ label_components(tf, [region])
 Hausdorff,
 Use FractalDimension.jl, documentation: https://juliadynamics.github.io/FractalDimensions.jl/stable/
 """
-
 function compute_fractal_dim(line::Union{Matrix{RGB{N0f8}}, Matrix{Float64}}; compute_Cs=false, from_bw=false)
     if !from_bw
         bw_invert_bin = Gray.((Gray.(line) .> 0.6)) # Conver to gray and threshold, see  [here](https://juliaimages.org/latest/examples/color_channels/rgb_grayscale/)

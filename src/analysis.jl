@@ -1,7 +1,9 @@
 using Images, Plots, FractalDimensions, StateSpaceSets, ComplexityMeasures, ImageView, DataFrames, Statistics, Cairo, ImageBinarization, LaTeXStrings
+using .FractalDim: pm_analysis
+using .FractalDim: compute_fractal_dim
 # export get_all_cropped, pm_analysis, pm_front_only
-include("compute_fractal_dim.jl")
-include("pm_analysis.jl")
+# include("compute_fractal_dim.jl")
+# include("pm_analysis.jl")
 # Drainage experiment
 model_width_drainage= 154 #mm
 model_length_drainage= 230 #mm
@@ -41,27 +43,18 @@ end
 # My attempt:
 # seg = Gray.(Gray.(a[1]) .> 0.6)
 
+"""
+Isolate front only.
+"""
 function pm_front_only(img::Matrix{RGB{N0f8}}; bwlevel=0.5)
     # bw_crop = Gray.((Gray.(img) .> bwlevel))
     bw_crop = opening(binarize(img, Otsu()))
     components_for_cluster = Images.label_components(bw_crop)
     large_component_ind = argmax(component_lengths(components_for_cluster)[1:end]) # NOTE: component_lengths returns a offset array, originally 
     bw_crop_largest_component = copy(components_for_cluster)
-    # bw_crop_largest_component = components[components.!=large_component_ind]  # Remove anything but the largest connected component
-
-    # Testing
-    # min_area_closing = sort(component_lengths(label_components(bw_crop_largest_component)))[end-1]
-    # bw_area_closing = area_closing(bw_crop_largest_component; min_area=min_area_closing, connectivity=1) # remove all smaller clusters, left with front.
-    # min_area_opening = sort(component_lengths(label_components(bw_area_closing)))[end-2]
-    # bw_area_opening = area_opening(bw_area_closing; min_area=min_area_opening, connectivity=1) # remove all smaller clusters, left with front.
-    # imshow(bw_area_opening);
     test = similar(bw_crop_largest_component)
-    # opening!(bw_crop_largest_component, bw_crop_largest_component, test; r=1)
     diameter_opening!(bw_crop_largest_component, bw_crop_largest_component; min_diameter=60) # Remove connected cylinders. Such a pair typically has a diameter > 60 pixels
-    # erode!(bw_crop_largest_component, bw_crop_largest_component; r=2)
     @. bw_crop_largest_component[bw_crop_largest_component != large_component_ind] = 0 # Largest component
-    # bw_crop_largest_component
-    # bw_crop_largest_component = area_closing()
     bw_crop_largest_component_yee = closing(bw_crop_largest_component; r=3) # Works for all values except for b[3]! Front length diverges for some values, but this is kind of expected.
     B_largest = isboundary(bw_crop_largest_component_yee)
     B_border_front = label_components(B_largest) # Label boundaries, leftmost is 1
