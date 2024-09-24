@@ -1,11 +1,12 @@
-@doc "Segment/binarize images and compute generalized fractal dimension using Rényi entropy. The package should give approximately the same results as box-counting."
+@doc "Segment/binarize images and compute generalized fractal dimension using Rényi entropy. The package should give the same results as box-counting."
 module FractalDim
-# Add packages. See the documentation for the individual packages for more information. 
+# Add packages. See the documentation for the individual packages for more information.
+
 # Images: Image analysis tools.
 # Plots: Framework for plotting
-# FractalDimensions: Compute generalized dimension of datasets from e.g. Rényi entropy and correlation sums.
+# FractalDimensions: Compute generalized dimension of datasets from e.g. Rényi entropy and correlation sums. 
 # StateSpaceSets: Create data type used in FractalDimensions-package from arrays.
-# ComplexityMeasures:
+# ComplexityMeasures: 
 # ImageView: Simple viewing of images.
 # using Images, Plots, FractalDimensions, StateSpaceSets, ComplexityMeasures, ImageView
 

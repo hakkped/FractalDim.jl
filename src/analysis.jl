@@ -1,4 +1,4 @@
-using Images, Plots, FractalDimensions, StateSpaceSets, ComplexityMeasures, ImageView, DataFrames, Statistics, Cairo, ImageBinarization, LaTeXStrings
+using Images, Plots, FractalDimensions, StateSpaceSets, ComplexityMeasures, ImageView, DataFrames, Statistics, ImageBinarization, LaTeXStrings
 using .FractalDim: pm_analysis
 using .FractalDim: compute_fractal_dim
 # export get_all_cropped, pm_analysis, pm_front_only
@@ -20,18 +20,24 @@ Q = [0.04, 0.2, 4 , 50] .* (1.66e-8) # List of flow rates, m^3/s
 model_length_FF = 115 # mm, length
 model_width_FF = 66 # mm, width
 
-
+"""
+Perform basic analysis of input image.
+Returns plot object.
+"""
 function analysis(img::Matrix{RGB{N0f8}}; fractal_dim_analysis=false, disp=false)
+    p_sub = plot()
     bw_invert_bin = Gray.(1 .- (Gray.(img) .> 0.6))
     if fractal_dim_analysis
         # Subplots
         p_sub_1 = plot(img, title="Raw image", titlefontsize=8)
         p_sub_2 = plot(bw_invert_bin, title="Black and white, inverted", titlefontsize=8)
         p_sub = plot(p_sub_1, p_sub_2, layout=@layout([A B]), axis=([], false))
+        # More here
     end
-    if disp
+    if disp # Display the images
         display(p_sub) # Must use display to show plots
     end
+    return p_sub
 end
 
 # Working, for visualization
