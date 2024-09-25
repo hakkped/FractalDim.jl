@@ -8,16 +8,12 @@ module FractalDim
 # StateSpaceSets: Create data type used in FractalDimensions-package from arrays.
 # ComplexityMeasures: 
 # ImageView: Simple viewing of images.
-# using Images, Plots, FractalDimensions, StateSpaceSets, ComplexityMeasures, ImageView
 
-# Export the necessary functions (defined in the source-files).
-export analysis
-export compute_fractal_dim
-export pm_analysis
+# Export the necessary functions (defined in the source-files with the same names).
+export analysis, compute_fractal_dim, pm_analysis
 
 # Include the source files containing the functions. Order matters.
 include("compute_fractal_dim.jl")
-include("pm_analysis.jl")
 include("analysis.jl")
 
 end
