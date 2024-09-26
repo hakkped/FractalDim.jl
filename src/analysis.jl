@@ -1,10 +1,16 @@
 using .FractalDim: compute_fractal_dim
 
 """
+  analysis(img; [fractal_dim_analysis=false], [disp=false])
+
 Perform basic analysis of input image.
 
 Returns plot object.
 TODO: extend function with relevant plots/images from the other functions in this package.
+
+img: Image to be processed
+fractal_dim_analysis: Perform analysis
+disp: Whether or not to display the results.
 """
 function analysis(img::Matrix{RGB{N0f8}}; fractal_dim_analysis=false, disp=false)
     p_sub = plot() # Create plot object
@@ -22,11 +28,18 @@ function analysis(img::Matrix{RGB{N0f8}}; fractal_dim_analysis=false, disp=false
 end
 
 """
-Analyze porous medium 
+  pm_analysis(img; [ cc=[1, size(img)[1], 1, size(img)[2]] ], [ threshold = 100 ], [bwlevel = 155 / 255], [binary_only =false] )
 
-Return binarized images of front, both phases with cylinders removed and both phases with cylinders.
+Analyze porous medium. Return binarized images of front, both phases with cylinders removed and both phases with cylinders.
 The function simply identifies the front with the largest connected component.
 No image manipulation other than diameter closing is performed.
+
+img: Image to be processed
+cc: Part of image to be processed in pixels, height then width.
+threshold: Minimum diameter of clusters
+bwlevel: BW-binarization threshold
+binary_only: Whether or not to only return the binarized
+
 """
 function pm_analysis(img::Matrix{RGB{N0f8}}; cc::Vector{Int64}=[1, size(img)[1], 1, size(img)[2]], threshold::Int64 = 100, bwlevel = 155 / 255, binary_only::Bool =false )
     img = img[cc[1]:cc[2], cc[3]:cc[4]] # Use crop coordinates
@@ -48,6 +61,8 @@ function pm_analysis(img::Matrix{RGB{N0f8}}; cc::Vector{Int64}=[1, size(img)[1],
 end
 
 """
+   pm_front_only(img; [bwlevel=0.5])
+
 Identify front as the boundary of the largest connected component. This definition is a bit naive, and requires careful usage (manual verification is recommended).
 
 Arguments:
@@ -71,9 +86,11 @@ function pm_front_only(img::Matrix{RGB{N0f8}}; bwlevel=0.5)
 end
 
 """
+  compute_cluster_size_dist(comp_cluster; [threshold=60])
+
 Compute cluster size distribution and bins.
 
-comp_cluster: image with labeled components. E.g. the output "component_clusters" from the function "pm_analysis". 
+comp_cluster: image with labeled components. E.g. the output "component_clusters" from the function "pm_analysis".
 threshold: minimum cluster size
 """
 function compute_cluster_size_dist(comp_cluster::Matrix{Int64}; threshold=60)
