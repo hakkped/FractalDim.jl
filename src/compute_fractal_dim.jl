@@ -4,6 +4,8 @@ using Images, Plots, FractalDimensions, StateSpaceSets, ComplexityMeasures, Imag
 
 Uses the package FractalDimension.jl for the computation, documentation: https://juliadynamics.github.io/FractalDimensions.jl/stable/
 
+Note that the input image should be cropped to the region of interest.
+
 img: Image to be processed
 compute_Cs: Whether or not to compute the fractal dimensions using box-counting
 from_bw: WHether or not the input image is already binarized
