@@ -1,4 +1,4 @@
-using Images, Plots, FractalDimensions, StateSpaceSets, ComplexityMeasures, ImageView, ImageBinarization
+using Images, Plots, FractalDimensions,  ComplexityMeasures, ImageView, ImageBinarization
 """
   compute_fractal_dim(img; [compute_Cs=false], [from_bw=false])
 
